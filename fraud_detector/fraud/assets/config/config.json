@@ -1,0 +1,68 @@
+{   
+    
+    "app":
+    {
+        "title" : "Fraud Detector",
+        "geometry" : [720, 480, 720, 480],
+        "icon_path" : ["fraud_detector","fraud", "assets", "images", "app_icon.ico"],
+        "initial_text" : "Welcome to the Fraud Detector app. This app will allow to detect fraud transaction by importing a .csv file.",
+        "selection_text": "Do you need a template to import data?: (Y/N)" ,
+        "error_text": "Please enter a valid response. Press (S) if you want to stop the app.",
+        "browse_text": "Please browse the template that is wanted to be analysed"
+    },
+    "template": 
+    {
+        "columns":"Column1",
+        "ready_text" : "Once the template is filled out, please press (R):"
+    },
+    "view":
+    {
+        "button_style": {
+            "background-color": "#ffffff",
+            "border": "1px solid #ddd",
+            "color": "#333",
+            "padding": "10px 20px",
+            "border-radius": "20px"
+          },
+        "button_size" : [150, 60],
+        "icon_size":[40, 40],
+        "label_style": {
+            "font-size": "12px",
+            "font-family": "Segoe UI",
+            "font-weight": "bold",
+            "color": "#555"
+            },
+        "push_buttons":
+        {
+            "push_buttons1" : 
+                {
+                "name" : "Browse template",
+                "pos" : [0,1]
+                },
+            "push_buttons2":
+                {
+                "name" : "Export Template",
+                "pos": [0,0]
+                },
+            "push_buttons3" : 
+                {
+                "name" : "Import data",
+                "pos": [0,2]
+                },
+            "push_buttons4" : 
+                {
+                "name" : "Display Data",
+                "pos": [5,0]
+                },
+            "push_buttons5": 
+                {
+                "name": "Predict",
+                "pos": [5, 5]
+                }
+        },
+        "tables" : 
+            {
+            "name" : "table"
+            } 
+    }            
+}

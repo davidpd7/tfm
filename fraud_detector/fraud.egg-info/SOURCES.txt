@@ -1,0 +1,10 @@
+setup.py
+fraud/__init__.py
+fraud/__main__.py
+fraud/main.py
+fraud.egg-info/PKG-INFO
+fraud.egg-info/SOURCES.txt
+fraud.egg-info/dependency_links.txt
+fraud.egg-info/entry_points.txt
+fraud.egg-info/requires.txt
+fraud.egg-info/top_level.txt

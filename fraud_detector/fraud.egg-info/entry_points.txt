@@ -1,0 +1,2 @@
+[consoles_scripts]
+fraud = fraud.__main__:main
