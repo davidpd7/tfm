@@ -1,9 +1,10 @@
 import os
 
 from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import QMainWindow,QWidget, QGridLayout, QPushButton, QLabel, QHBoxLayout, QTableWidget
+from PyQt6.QtWidgets import QMainWindow,QWidget, QGridLayout, QPushButton, QLabel, QHBoxLayout, QTableWidget, QMenu
 from PyQt6.QtCore import QUrl, QSize, Qt
-from PyQt6.QtGui import QDesktopServices, QPixmap
+from PyQt6.QtGui import QDesktopServices, QPixmap, QAction
+
 
 from fraud.config import cfg_item
 
@@ -24,7 +25,27 @@ class View(QMainWindow):
 
         self.__add_buttons()
         self.__create_table()
+        self.initUI()
 
+
+    def initUI(self):
+
+        menubar = self.menuBar()
+        fileMenu = menubar.addMenu('File')
+        infoMenu = menubar.addMenu('Info')
+
+        impMenu = QAction('Import .csv', self)
+        expMenu = QAction('Export template', self)
+        newAct = QAction('New', self)
+
+        insMenu = QAction("Instructions", self)
+        verMenu = QAction("Version", self)
+
+        fileMenu.addAction(newAct)
+        fileMenu.addAction(impMenu)
+        fileMenu.addAction(expMenu)
+        infoMenu.addAction(insMenu)
+        infoMenu.addAction(verMenu)
 
     def __set_buttons(self, description):
         

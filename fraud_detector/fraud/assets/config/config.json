@@ -34,30 +34,16 @@
             },
         "push_buttons":
         {
+           
             "push_buttons1" : 
-                {
-                "name" : "Browse template",
-                "pos" : [0,1]
-                },
-            "push_buttons2":
-                {
-                "name" : "Export Template",
-                "pos": [0,0]
-                },
-            "push_buttons3" : 
-                {
-                "name" : "Import data",
-                "pos": [0,2]
-                },
-            "push_buttons4" : 
                 {
                 "name" : "Display Data",
                 "pos": [5,0]
                 },
-            "push_buttons5": 
+            "push_buttons2": 
                 {
                 "name": "Predict",
-                "pos": [5, 5]
+                "pos": [5, 4]
                 }
         },
         "tables" : 
