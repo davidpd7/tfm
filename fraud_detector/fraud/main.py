@@ -46,13 +46,6 @@ class App():
     def stop(self):
         pass
 
-    def export_template(self):
-        
-        template = pd.DataFrame(columns = self.template_columns)
-        template.to_csv("template_fraud.csv")
-        print(self.ready_text)
-        self.browse_template()
-
 
     def browse_template(self):
 

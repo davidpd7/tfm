@@ -3,7 +3,7 @@
     "app":
     {
         "title" : "Fraud Detector",
-        "geometry" : [720, 480, 720, 480],
+        "geometry" : [280, 120],
         "icon_path" : ["fraud_detector","fraud", "assets", "images", "app_icon.ico"],
         "initial_text" : "Welcome to the Fraud Detector app. This app will allow to detect fraud transaction by importing a .csv file.",
         "selection_text": "Do you need a template to import data?: (Y/N)" ,
@@ -11,7 +11,7 @@
         "browse_text": "Please browse the template that is wanted to be analysed"
     },
     "template": 
-    {
+    {   "name":"template_fraud.csv",
         "columns":"Column1",
         "ready_text" : "Once the template is filled out, please press (R):"
     },
@@ -19,36 +19,39 @@
     {
         "button_style": {
             "background-color": "#ffffff",
-            "border": "1px solid #ddd",
-            "color": "#333",
-            "padding": "10px 20px",
-            "border-radius": "20px"
-          },
-        "button_size" : [150, 60],
-        "icon_size":[40, 40],
-        "label_style": {
-            "font-size": "12px",
+            "font-size": "10px",
+            "border": "3px solid #ddd",
             "font-family": "Segoe UI",
-            "font-weight": "bold",
-            "color": "#555"
-            },
+            "font-weight": "italian",
+            "color": "#100",
+            "padding": "5px 5px",
+            "border-radius": "15px"
+          },
+        "button_size" : [70, 40],
         "push_buttons":
         {
-           
-            "push_buttons1" : 
-                {
-                "name" : "Display Data",
-                "pos": [5,0]
-                },
-            "push_buttons2": 
+            "push_buttons1": 
                 {
                 "name": "Predict",
-                "pos": [5, 4]
+                "pos": [1, 0]
                 }
         },
         "tables" : 
             {
             "name" : "table"
-            } 
+            }, 
+        "menu_bar":{
+            "file_menu":{
+                "name":"File",
+                "option1":"Import .csv",
+                "option2":"Export template"
+            },
+            "info_menu":{
+                "name":"Info",
+                "option1":"Instructions",
+                "option2":"Version"
+            }
+
+        }
     }            
 }
