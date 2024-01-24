@@ -5,6 +5,10 @@
         "title" : "Fraud Detector",
         "geometry" : [280, 120],
         "icon_path" : ["fraud_detector","fraud", "assets", "images", "app_icon.ico"],
+        "model_path":["fraud_detector","fraud", "logistic_regression_model.pkl"],
+        "binning_amt":["fraud_detector","fraud","optb_amt.joblib"],
+        "binning_age":["fraud_detector","fraud","optb_age.joblib"],
+        "preprocesor":["fraud_detector","fraud","preprocessor.joblib"],
         "initial_text" : "Welcome to the Fraud Detector app. This app will allow to detect fraud transaction by importing a .csv file.",
         "selection_text": "Do you need a template to import data?: (Y/N)" ,
         "error_text": "Please enter a valid response. Press (S) if you want to stop the app.",
@@ -12,14 +16,17 @@
     },
     "template": 
     {   "name":"template_fraud.csv",
-        "columns":"Column1",
+        "columns": {
+            "numerical_cols" : ["trans_date_trans_time","amt","lat", "long","city_pop", "unix_time", "merch_lat", "merch_long", "dob"],
+            "categorical_cols" : ["first","last","gender", "category", "street", "city", "state", "job"]
+        },
         "ready_text" : "Once the template is filled out, please press (R):"
     },
     "view":
     {
         "button_style": {
             "background-color": "#ffffff",
-            "font-size": "10px",
+            "font-size": "11px",
             "border": "3px solid #ddd",
             "font-family": "Segoe UI",
             "font-weight": "italian",
@@ -27,14 +34,20 @@
             "padding": "5px 5px",
             "border-radius": "15px"
           },
-        "button_size" : [70, 40],
+        "button_size" : [80, 40],
         "push_buttons":
         {
             "push_buttons1": 
                 {
                 "name": "Predict",
+                "pos": [1, 1]
+                },
+                "push_buttons2":
+                {
+                "name": "Process Data",
                 "pos": [1, 0]
                 }
+            
         },
         "tables" : 
             {
@@ -44,7 +57,8 @@
             "file_menu":{
                 "name":"File",
                 "option1":"Import .csv",
-                "option2":"Export template"
+                "option2":"Export template",
+                "option3": "Exit"
             },
             "info_menu":{
                 "name":"Info",
