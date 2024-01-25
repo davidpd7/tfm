@@ -1,7 +1,11 @@
 setup.py
 fraud/__init__.py
 fraud/__main__.py
+fraud/config.py
+fraud/controller.py
 fraud/main.py
+fraud/models.py
+fraud/view.py
 fraud.egg-info/PKG-INFO
 fraud.egg-info/SOURCES.txt
 fraud.egg-info/dependency_links.txt

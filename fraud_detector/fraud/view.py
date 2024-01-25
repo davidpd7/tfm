@@ -1,13 +1,11 @@
 import os
 
 from PyQt6.QtGui import QIcon
-from PyQt6.QtWidgets import QMainWindow,QWidget, QGridLayout, QPushButton, QLabel, QHBoxLayout, QTableWidget, QMenu
-from PyQt6.QtCore import QUrl, QSize, Qt
-from PyQt6.QtGui import QDesktopServices, QPixmap, QAction
-
+from PyQt6.QtWidgets import QMainWindow,QWidget, QGridLayout, QPushButton
+from PyQt6.QtCore import QSize, Qt
+from PyQt6.QtGui import QAction
 
 from fraud.config import cfg_item
-
 
 class View(QMainWindow):
      
@@ -18,15 +16,18 @@ class View(QMainWindow):
         self.setWindowIcon(QIcon(os.path.join(*cfg_item("app","icon_path"))))
         self.setWindowTitle(cfg_item("app","title"))
         self.setFixedSize(*cfg_item("app", "geometry"))
-        
         self.__central_widget = QWidget(self)
-        
         self.__main_layout = QGridLayout(self.__central_widget)
         self.setCentralWidget(self.__central_widget)
-        self.__add_menubar()
-        self.__add_buttons()
+        self.__render()
+
+    def __render(self):
+   
+            self.__add_menubar()
+            self.__add_buttons()
 
     def __add_menubar(self):
+
         menubar = self.menuBar()
         filemenu = menubar.addMenu(cfg_item("view", "menu_bar", "file_menu", "name"))
         infomenu = menubar.addMenu(cfg_item("view", "menu_bar", "info_menu", "name"))
