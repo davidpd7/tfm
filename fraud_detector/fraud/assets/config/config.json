@@ -1,40 +1,58 @@
 {   
-    
-    "app":
+"app":
     {
-        "title" : "Fraud Detector",
-        "geometry" : [280, 120],
-        "icon_path" : ["fraud", "assets", "images", "app_icon.ico"],
-        "packages":
-            {   
-            "model_path":["fraud", "logistic_regression_model.pkl"],
-            "binning_amt":["fraud","optb_amt.joblib"],
-            "binning_age":["fraud","optb_age.joblib"],
-            "preprocesor":["fraud","preprocessor.joblib"]
-            }
+    "title" : "Fraud Detector",
+    "geometry" : [280, 120],
+    "icon_path" : ["fraud_detector","fraud", "assets", "images", "app_icon.ico"],
+    "packages":
+        {   
+        "model_path":["fraud_detector","fraud", "assets", "packages", "logistic_regression_model.pkl"],
+        "binning_amt":["fraud_detector","fraud", "assets", "packages","optb_amt.joblib"],
+        "binning_age":["fraud_detector","fraud", "assets", "packages","optb_age.joblib"],
+        "preprocesor":["fraud_detector","fraud", "assets", "packages","preprocessor.joblib"]
+        }
 
     },
-    "template": 
-        {   
-        "name":"template_fraud.csv",
-        "columns": 
+"template": 
+    {   
+    "name":"template_fraud.csv",
+    "columns": 
         {
-            "numerical_cols" : ["trans_date_trans_time","amt","lat", "long","city_pop", "unix_time", "merch_lat", "merch_long", "dob"],
-            "categorical_cols" : ["first","last","gender", "category", "street", "city", "state", "job"]
+            "mandatory_columns" : [
+                                "trans_date_trans_time(*)",
+                                "amt(*)",
+                                "lat(*)", 
+                                "long(*)",
+                                "city_pop(*)", 
+                                "unix_time(*)", 
+                                "merch_lat(*)", 
+                                "merch_long(*)", 
+                                "dob(*)",
+                                "gender(*)",
+                                "category(*)"
+                                ],
+            "non_mandatory_columns" : [
+                                "first",
+                                "last", 
+                                "street", 
+                                "city", 
+                                "state", 
+                                "job"]
         }
     },
     "transformed_data":
     {
         "columns":
         {
-        "numerical_cols" : ["lat", "long", "city_pop", "unix_time", "merch_lat", "merch_long","trasaction_hour"],
-        "categorical_cols" : ["gender", "category", "age_binned", "amt_binned", "trasaction_day"]
+            "numerical_cols" : ["lat", "long", "city_pop", "unix_time", "merch_lat", "merch_long","trasaction_hour"],
+            "categorical_cols" : ["gender", "category", "age_binned", "amt_binned", "trasaction_day"]
         }
 
     },
     "view":
     {
-        "button_style": {
+        "button_style": 
+        {
             "background-color": "#ffffff",
             "font-size": "11px",
             "border": "3px solid #ddd",
@@ -43,39 +61,37 @@
             "color": "#100",
             "padding": "5px 5px",
             "border-radius": "15px"
-          },
+        },
         "button_size" : [80, 40],
         "push_buttons":
-        {
+            {
             "push_buttons1": 
                 {
                 "name": "Predict",
                 "pos": [1, 1]
                 },
-                "push_buttons2":
+            "push_buttons2":
                 {
                 "name": "Process Data",
                 "pos": [1, 0]
                 }
-            
-        },
-        "tables" : 
-            {
-            "name" : "table"
-            }, 
-        "menu_bar":{
-            "file_menu":{
-                "name":"File",
-                "option1":"Import .csv",
-                "option2":"Export template",
-                "option3": "Exit"
+        
             },
-            "info_menu":{
-                "name":"Info",
-                "option1":"Instructions",
-                "option2":"Version"
+        "menu_bar":
+            {
+        "file_menu":
+            {
+            "name":"File",
+            "option1":"Import .csv",
+            "option2":"Export template",
+            "option3": "Exit"
+            },
+        "info_menu":
+            {
+            "name":"Info",
+            "option1":"Instructions",
+            "option2":"Version"
             }
-
         }
     }            
 }
