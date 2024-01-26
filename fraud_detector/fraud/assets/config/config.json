@@ -3,33 +3,37 @@
     {
     "title" : "Fraud Detector",
     "geometry" : [280, 120],
-    "icon_path" : ["fraud_detector","fraud", "assets", "images", "app_icon.ico"],
+    "icon_path" : ["fraud", "assets", "images", "app_icon.ico"],
     "packages":
         {   
-        "model_path":["fraud_detector","fraud", "assets", "packages", "logistic_regression_model.pkl"],
-        "binning_amt":["fraud_detector","fraud", "assets", "packages","optb_amt.joblib"],
-        "binning_age":["fraud_detector","fraud", "assets", "packages","optb_age.joblib"],
-        "preprocesor":["fraud_detector","fraud", "assets", "packages","preprocessor.joblib"]
-        }
+        "model_path":["fraud", "assets", "packages", "logistic_regression_model.pkl"],
+        "binning_amt":["fraud", "assets", "packages","optb_amt.joblib"],
+        "binning_age":["fraud", "assets", "packages","optb_age.joblib"],
+        "preprocesor":["fraud", "assets", "packages","preprocessor.joblib"]
+        },
+    "mandatory_indicator": "(*)"
 
     },
 "template": 
     {   
     "name":"template_fraud.csv",
     "columns": 
-        {
+        {   "datetime_columns":[
+                                "trans_date_trans_time", 
+                                "dob"
+                                ],
             "mandatory_columns" : [
-                                "trans_date_trans_time(*)",
-                                "amt(*)",
-                                "lat(*)", 
-                                "long(*)",
-                                "city_pop(*)", 
-                                "unix_time(*)", 
-                                "merch_lat(*)", 
-                                "merch_long(*)", 
-                                "dob(*)",
-                                "gender(*)",
-                                "category(*)"
+                                "trans_date_trans_time",
+                                "amt",
+                                "lat", 
+                                "long",
+                                "city_pop", 
+                                "unix_time", 
+                                "merch_lat", 
+                                "merch_long", 
+                                "dob",
+                                "gender",
+                                "category"
                                 ],
             "non_mandatory_columns" : [
                                 "first",
