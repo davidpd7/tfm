@@ -2,13 +2,13 @@
     "app": {
         "title": "Fraud Detector",
         "geometry": [280, 120],
-        "icon_path": ["fraud", "assets", "images", "app_icon.ico"],
+        "icon_path": ["fraud_detector","fraud", "assets", "images", "app_icon.ico"],
         "packages": {
-            "model_path": ["fraud", "assets", "packages", "LogisticRegression.pkl"],
-            "binning_amt": ["fraud", "assets", "packages", "optb_amt.joblib"],
-            "binning_meandiff": ["fraud", "assets", "packages", "optb_meandiff.joblib"],
-            "binning_tslt":["fraud", "assets", "packages", "optb_tslt.joblib"],
-            "preprocessor": ["fraud", "assets", "packages", "preprocessor.joblib"]
+            "model_path": ["fraud_detector","fraud", "assets", "packages", "LogisticRegression.pkl"],
+            "binning_amt": ["fraud_detector","fraud", "assets", "packages", "optb_amt.joblib"],
+            "binning_meandiff": ["fraud_detector","fraud", "assets", "packages", "optb_meandiff.joblib"],
+            "binning_tslt":["fraud_detector","fraud", "assets", "packages", "optb_tslt.joblib"],
+            "preprocessor": ["fraud_detector","fraud", "assets", "packages", "preprocessor.joblib"]
         },
         "mandatory_indicator": "*"
     },
@@ -85,9 +85,9 @@
         "menu_bar": {
             "file_menu": {
                 "name": "File",
-                "option1": "Import .csv",
+                "option1": "Import data",
                 "option2": "Export template",
-                "option3": "Exit"
+                "option3" :"Import test data"
             },
             "info_menu": {
                 "name": "Info",

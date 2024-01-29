@@ -4,6 +4,7 @@ import joblib
 
 from PyQt6.QtWidgets import QFileDialog
 import pandas as pd
+from sklearn.metrics import confusion_matrix
 
 from fraud.config import cfg_item
 
@@ -130,9 +131,19 @@ class Model:
         self.__data_processed = self.get_data_processed()
         if self.__data_processed is None:
             return None
-        predictions = self.__lg_model.predict(self.__data_processed)
-        print(predictions)
-        return predictions
+        self.__predictions = self.__lg_model.predict(self.__data_processed)
+        print(self.__predictions)
+        return self.__predictions
 
     def __model_metrics(self):
         pass
+
+    def browse_test(self):
+        self.__filetest, _ = QFileDialog.getOpenFileName(None, "Open File")
+        self.__test_predictions()
+
+    def __test_predictions(self):
+        test = pd.read_csv(self.__filetest, index_col=0)['is_fraud']
+        print(confusion_matrix(y_true=test,y_pred=self.__predictions, normalize ='true'))
+        
+    

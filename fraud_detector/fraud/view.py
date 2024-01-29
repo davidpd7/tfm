@@ -34,19 +34,22 @@ class View(QMainWindow):
 
         impmenu = QAction(cfg_item("view", "menu_bar", "file_menu", "option1"), self)
         expmenu = QAction(cfg_item("view", "menu_bar", "file_menu", "option2"), self)
-        insMenu = QAction(cfg_item("view", "menu_bar", "info_menu", "option1"), self)
-        verMenu = QAction(cfg_item("view", "menu_bar", "info_menu", "option2"), self)
+        imptest = QAction(cfg_item("view", "menu_bar", "file_menu", "option3"), self)
+        insmenu = QAction(cfg_item("view", "menu_bar", "info_menu", "option1"), self)
+        vermenu = QAction(cfg_item("view", "menu_bar", "info_menu", "option2"), self)
 
         filemenu.addAction(impmenu)
         filemenu.addAction(expmenu)
-        infomenu.addAction(insMenu)
-        infomenu.addAction(verMenu)
+        filemenu.addAction(imptest)
+        infomenu.addAction(insmenu)
+        infomenu.addAction(vermenu)
 
         self.action_instances = {
-            'impmenu': impmenu,
-            'expmenu': expmenu,
-            'insMenu': insMenu,
-            'verMenu': verMenu
+            "impmenu": impmenu,
+            "expmenu": expmenu,
+            "imptest" : imptest,
+            "insmenu": insmenu,
+            "vermenu": vermenu
         }
 
 
@@ -54,7 +57,7 @@ class View(QMainWindow):
         
         button = QPushButton(description, parent = self.__central_widget,)
         button_size = QSize(*cfg_item("view", "button_size"))
-        style = self.__css_style(cfg_item('view','button_style'))
+        style = self.__css_style(cfg_item("view","button_style"))
         button.setFixedSize(button_size)
         button.setStyleSheet(style)
         return button

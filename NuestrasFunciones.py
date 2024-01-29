@@ -717,7 +717,7 @@ def optimal_binning(data_train, variables, varObj, binning_type, dtype):
             print(f'IV: {binning_table.iv}')
 
 
-def confussion_matrix(predictions,y):
+def confussion_matrix(y, predictions):
 
     conf_matrix = confusion_matrix(y, predictions)
     plt.figure(figsize=(8, 6))
@@ -746,20 +746,19 @@ def metrics(model, X, y):
     print("------------------------")
     predictions = model.predict(X)
     probs = model.predict_proba(X)[:, 1]
-    confussion_matrix(model, predictions, y)
+    confussion_matrix(y, predictions)
     print("------------------------")
     custom_roc_curve(y, probs)
 
-def models_train(models_instances, X_train, y_train):
+def models_train(model, X_train, y_train):
 
-    for model in models_instances:
-        print(f"{model.__class__.__name__}")
-        start_time = time()
-        model.fit(X_train, y_train)
-        end_time = time()
-        training_time = end_time - start_time
-        print(f"Training time: {training_time:.2f} seconds")
-        print("------------------------")
+    print(f"{model.__class__.__name__}")
+    start_time = time()
+    model.fit(X_train, y_train)
+    end_time = time()
+    training_time = end_time - start_time
+    print(f"Training time: {training_time:.2f} seconds")
+    print("------------------------")
 
 def model_comparison(model_instances, X, y):
 
