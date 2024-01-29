@@ -16,9 +16,8 @@ import patsy
 from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
 from sklearn.model_selection import RepeatedKFold
-from sklearn.linear_model import LinearRegression
-from sklearn.linear_model import LogisticRegression
-from sklearn import metrics
+from sklearn.linear_model import LinearRegression, LogisticRegression
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, roc_curve, auc, confusion_matrix, roc_auc_score, silhouette_score
 import missingno as msno
 
 from IPython.display import display
@@ -32,7 +31,7 @@ from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
 
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import scale
-from sklearn.metrics import silhouette_score
+
 from scipy.spatial.distance import cdist, pdist
 
 
@@ -297,7 +296,7 @@ def tr_tst_eval_log(formula,data):
   y_pred = modelLog.predict(X_tst)
   
   # Matriz de confusion de clasificación 
-  print('Matriz de confusión y métricas derivadas: \n',metrics.confusion_matrix(y_tst,y_pred))
+  print('Matriz de confusión y métricas derivadas: \n',confusion_matrix(y_tst,y_pred))
   
   # Reporte de clasificación 
   print(metrics.classification_report(y_tst,y_pred))
@@ -356,7 +355,7 @@ def cross_val_log(formula, data, seed=12345):
   
 # Función para pintar la curva ROC
 def roc_grafico(test,pred): 
-    fpr, tpr, thresholds = metrics.roc_curve(test,pred)
+    fpr, tpr, thresholds = roc_curve(test,pred)
     roc_auc = metrics.auc(fpr, tpr)
     
     plt.figure()
@@ -379,7 +378,7 @@ def roc_grafico(test,pred):
  
 # Función pto de corte por Youden
 def cutoff_youden(test,pred):
-    fpr, tpr, thresholds = metrics.roc_curve(test,pred)
+    fpr, tpr, thresholds = roc_curve(test,pred)
     j_scores = tpr-fpr
     j_ordered = sorted(zip(j_scores,thresholds))
     return j_ordered[-1][1]
@@ -716,4 +715,79 @@ def optimal_binning(data_train, variables, varObj, binning_type, dtype):
             print(f'{variable} IV under limit of 0.02')
             print(f'Gini: {binning_table.gini}')
             print(f'IV: {binning_table.iv}')
+
+
+def confussion_matrix(predictions,y):
+
+    conf_matrix = confusion_matrix(y, predictions)
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(conf_matrix, annot=True, fmt="d", cmap="Blues")
+    plt.title("Confusion Matrix")
+    plt.xlabel("Predicted")
+    plt.ylabel("Actual")
+    plt.show()
+
+def custom_roc_curve( y, probs):
+    fpr, tpr, thresholds = roc_curve(y, probs)
+    roc_auc = auc(fpr, tpr)
+    plt.figure(figsize=(10, 6))
+    plt.plot(fpr, tpr, color="darkorange", lw=2, label="ROC curve (area = %0.2f)" % roc_auc)
+    plt.plot([0, 1], [0, 1], color="navy", lw=2, linestyle="--")
+    plt.xlim([0.0, 1.0])
+    plt.ylim([0.0, 1.05])
+    plt.xlabel("False Positive Rate")
+    plt.ylabel("True Positive Rate")
+    plt.title("Receiver Operating Characteristic (ROC)")
+    plt.legend(loc="lower right")
+    plt.show()
+
+def metrics(model, X, y):
+    print(model.__class__.__name__)
+    print("------------------------")
+    predictions = model.predict(X)
+    probs = model.predict_proba(X)[:, 1]
+    confussion_matrix(model, predictions, y)
+    print("------------------------")
+    custom_roc_curve(y, probs)
+
+def models_train(models_instances, X_train, y_train):
+
+    for model in models_instances:
+        print(f"{model.__class__.__name__}")
+        start_time = time()
+        model.fit(X_train, y_train)
+        end_time = time()
+        training_time = end_time - start_time
+        print(f"Training time: {training_time:.2f} seconds")
+        print("------------------------")
+
+def model_comparison(model_instances, X, y):
+
+    names = []
+    accuracy_scores = []
+    roc_scores = []
+    f1_scores = []
+    precision_scores = []
+    recall_scores = []
+
+    for model in model_instances:
+        predictions = model.predict(X)
+        accuracy = accuracy_score(y, predictions)
+        roc_score = roc_auc_score(y, predictions)
+        names.append(model.__class__.__name__)
+        accuracy_scores.append(accuracy)
+        roc_scores.append(roc_score)
+        f1_scores.append(f1_score(y, predictions))
+        precision_scores.append(precision_score(y, predictions))
+        recall_scores.append(recall_score(y, predictions))
+
+    results_df = pd.DataFrame({
+          "Model": names,
+          "Accuracy Val": accuracy_scores,
+          "ROC Score Val": roc_scores,
+          "F1 Score Val": f1_scores,
+          "Precision Score Val": precision_scores,
+          "Recall Score Val": recall_scores,
+      })
+    return results_df
 

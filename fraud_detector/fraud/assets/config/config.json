@@ -2,12 +2,13 @@
     "app": {
         "title": "Fraud Detector",
         "geometry": [280, 120],
-        "icon_path": ["fraud_detector", "fraud", "assets", "images", "app_icon.ico"],
+        "icon_path": ["fraud", "assets", "images", "app_icon.ico"],
         "packages": {
-            "model_path": ["fraud_detector", "fraud", "assets", "packages", "logistic_regression_model.pkl"],
-            "binning_amt": ["fraud_detector", "fraud", "assets", "packages", "optb_amt.joblib"],
-            "binning_age": ["fraud_detector", "fraud", "assets", "packages", "optb_age.joblib"],
-            "preprocessor": ["fraud_detector", "fraud", "assets", "packages", "preprocessor.joblib"]
+            "model_path": ["fraud", "assets", "packages", "LogisticRegression.pkl"],
+            "binning_amt": ["fraud", "assets", "packages", "optb_amt.joblib"],
+            "binning_meandiff": ["fraud", "assets", "packages", "optb_meandiff.joblib"],
+            "binning_tslt":["fraud", "assets", "packages", "optb_tslt.joblib"],
+            "preprocessor": ["fraud", "assets", "packages", "preprocessor.joblib"]
         },
         "mandatory_indicator": "*"
     },
@@ -37,18 +38,26 @@
     "transformed_data": {
         "columns": {
             "datetime": {
-                "transaction_day": "trasaction_day",
-                "transaction_hour": "trasaction_hour",
+                "transaction_day": "transaction_day",
+                "transaction_hour": "transaction_hour",
                 "transaction_age": "age",
+                "unix_time":"unix_time",
+                "time_since_last_transaction":"time_since_last_transaction",
                 "number_days_year": 365
+            },
+            "transformations" :{
+                "credit_card_number" :"cc_num",
+                "mean_transaction_amount":"mean_transaction_amount",
+                "transaction_amount_diff" :"transaction_amount_diff"
             },
             "binned": {
                 "amount": "amt",
                 "amount_binned": "amt_binned",
-                "age_binned": "age_binned"
+                "transaction_amount_diff":"transaction_amount_diff_binned",
+                "time_since_last_transaction":"time_since_last_transaction_binned"
             },
-            "numerical": ["lat", "long", "city_pop", "unix_time", "merch_lat", "merch_long", "trasaction_hour"],
-            "categorical": ["gender", "category", "age_binned", "amt_binned", "trasaction_day"]
+            "numerical" : ["lat", "long", "merch_lat", "merch_long", "age", "transaction_hour","transaction_day"],
+            "categorical" : ["gender", "category", "amt_binned", "time_since_last_transaction_binned", "transaction_amount_diff_binned"]
         }
     },
     "view": {
