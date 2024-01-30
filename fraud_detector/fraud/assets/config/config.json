@@ -1,14 +1,30 @@
 {
     "app": {
         "title": "Fraud Detector",
-        "geometry": [280, 120],
-        "icon_path": ["fraud_detector","fraud", "assets", "images", "app_icon.ico"],
-        "packages": {
-            "model_path": ["fraud_detector","fraud", "assets", "packages", "LogisticRegression.pkl"],
-            "binning_amt": ["fraud_detector","fraud", "assets", "packages", "optb_amt.joblib"],
-            "binning_meandiff": ["fraud_detector","fraud", "assets", "packages", "optb_meandiff.joblib"],
-            "binning_tslt":["fraud_detector","fraud", "assets", "packages", "optb_tslt.joblib"],
-            "preprocessor": ["fraud_detector","fraud", "assets", "packages", "preprocessor.joblib"]
+        "geometry": [360, 180],
+        "icon_path": ["fraud", "assets", "images", "app_icon.ico"],
+        "packages":{ 
+            "models":{
+                "model_1":{
+                    "name": "Model 1",
+                    "code": "model_1",
+                    "path" : ["fraud", "assets", "packages", "GradientBoostingClassifier.pkl"]
+                },
+                "model_2": {
+                    "name" : "Model 2",
+                    "code": "model_2",
+                    "path" : ["fraud", "assets", "packages", "GridSearchCV.pkl"]
+                },
+                "model_3":  {
+                    "name" : "Model 3", 
+                    "code": "model_3",
+                    "path":["fraud", "assets", "packages", "RandomForestClassifier.pkl"]
+                }
+            },
+            "binning_amt": ["fraud", "assets", "packages", "optb_amt.joblib"],
+            "binning_meandiff": ["fraud", "assets", "packages", "optb_meandiff.joblib"],
+            "binning_tslt":["fraud", "assets", "packages", "optb_tslt.joblib"],
+            "preprocessor": ["fraud", "assets", "packages", "preprocessor.joblib"]
         },
         "mandatory_indicator": "*"
     },
@@ -61,6 +77,12 @@
         }
     },
     "view": {
+        "combo_box":[
+                "Model 1",
+                "Model 2",
+                "Model 3"
+            ]
+        ,
         "button_style": {
             "background-color": "#ffffff",
             "font-size": "11px",
@@ -71,7 +93,7 @@
             "padding": "5px 5px",
             "border-radius": "15px"
         },
-        "button_size": [80, 40],
+        "button_size": [100, 40],
         "push_buttons": {
             "push_buttons1": {
                 "name": "Predict",
@@ -80,20 +102,58 @@
             "push_buttons2": {
                 "name": "Process Data",
                 "pos": [1, 0]
+            },
+            "push_buttons3": {
+                "name": "Compare Results",
+                "pos": [1, 2]
             }
+
         },
         "menu_bar": {
             "file_menu": {
                 "name": "File",
-                "option1": "Import data",
-                "option2": "Export template",
-                "option3" :"Import test data"
+                "submenu1":{
+                    "name": "Import",
+                    "option1" : "Import data",
+                    "option3" : "Import test data"
+                    },
+                "submenu2":{
+                    "name": "Export",
+                    "option2" : "Export template",
+                    "option4" : "Export predictions"
+                    }
             },
-            "info_menu": {
+        "info_menu": {
                 "name": "Info",
                 "option1": "Instructions",
                 "option2": "Version"
-            }
+                    }
+                }
+            },
+    "metrics":{
+            "model_1": {
+                "Accuracy Val": 0.997618,
+                "ROC Score Val": 0.855771,
+                "F1 Score Val": 0.697855,
+                "Precision Score Val": 0.683505,
+                "Recall Score Val": 0.712821
+            },
+            "model_2": {
+                "Accuracy Val": 0.963993,
+                "ROC Score Val": 0.93897,
+                "F1 Score Val": 0.163811,
+                "Precision Score Val": 0.08997,
+                "Recall Score Val": 0.913753
+            },
+            "model_3": {
+                "Accuracy Val": 0.959346,
+                "ROC Score Val": 0.933619,
+                "F1 Score Val": 0.147021,
+                "Precision Score Val": 0.079988,
+                "Recall Score Val": 0.907692
         }
+        
     }
 }
+
+
