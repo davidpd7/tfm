@@ -1,19 +1,22 @@
 import os
+from importlib import resources
 
 from PyQt6.QtGui import QIcon
 from PyQt6.QtWidgets import QMainWindow,QWidget, QGridLayout, QPushButton, QMessageBox,QComboBox
-from PyQt6.QtCore import QSize, Qt
+from PyQt6.QtCore import QSize
 from PyQt6.QtGui import QAction
 
-from fraud.config import cfg_item
+from fraud.assets.config.config import cfg_item
 
 class View(QMainWindow):
      
     def __init__(self):
 
         super().__init__()
-        
-        self.setWindowIcon(QIcon(os.path.join(*cfg_item("app","icon_path"))))
+        icon_path = cfg_item("app","icon_path")
+        with resources.path(icon_path[0], icon_path[1]) as file:
+            self.__icon = file
+        self.setWindowIcon(QIcon(os.path.join(self.__icon)))
         self.setWindowTitle(cfg_item("app","title"))
         self.setFixedSize(*cfg_item("app", "geometry"))
         self.__central_widget = QWidget(self)
@@ -28,13 +31,19 @@ class View(QMainWindow):
             self.__combo_box()
             self.__add_buttons()
 
-    def __add_menubar(self):
+    def __create_menu_bar(self):
 
         menubar = self.menuBar()
         filemenu = menubar.addMenu(cfg_item("view", "menu_bar", "file_menu", "name"))
         infomenu = menubar.addMenu(cfg_item("view", "menu_bar", "info_menu", "name"))
         subfileimp = filemenu.addMenu(cfg_item("view", "menu_bar", "file_menu", "submenu1","name"))
         subfileexp = filemenu.addMenu(cfg_item("view", "menu_bar", "file_menu", "submenu2","name"))
+        return infomenu, subfileexp, subfileimp
+
+    def __add_menubar(self):
+        
+        infomenu, subfileexp, subfileimp = self.__create_menu_bar()
+        
         impmenu = QAction(cfg_item("view", "menu_bar", "file_menu", "submenu1","option1"), self)
         imptest = QAction(cfg_item("view", "menu_bar", "file_menu", "submenu1","option3"), self)
         expmenu = QAction(cfg_item("view", "menu_bar", "file_menu", "submenu2","option2"), self)

@@ -1,7 +1,5 @@
 Metadata-Version: 2.1
 Name: fraud
 Version: 0.1
-Author: David Perez
-Author-email: david.5697.9@gmail.com
 Requires-Dist: pandas
 Requires-Dist: numpy

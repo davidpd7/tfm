@@ -3,7 +3,7 @@ import functools
 from PyQt6.QtWidgets import  QTableWidgetItem, QMessageBox
 import numpy as np
 
-from fraud.config import cfg_item
+from fraud.assets.config.config import cfg_item
 class Controller:
 
     def __init__(self, view, model):
@@ -31,9 +31,9 @@ class Controller:
         result_correct_transactions = "Number non-fraudulent Transaction:"
         result_fraudulent_transaction = "Number Fraudulent Transaction:"
         current_text = self.__combo_box.currentText()
-        for model in cfg_item("app","packages","models"):
-            if current_text == cfg_item("app","packages","models", model, "name"):
-                model =  cfg_item("app","packages","models","model_1","code")
+        for model in cfg_item("packages","models"):
+            if current_text == cfg_item("packages","models", model, "name"):
+                model =  cfg_item("packages","models","model_1","code")
         result = self.__model.predictor(model)
         if result is not None:   
             counts = np.bincount(result, minlength=2)

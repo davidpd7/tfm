@@ -5,30 +5,29 @@ import joblib
 from PyQt6.QtWidgets import QFileDialog, QMessageBox
 import pandas as pd
 from sklearn.metrics import confusion_matrix
-from fraud.config import cfg_item
+
+from fraud.assets.config.config import cfg_item
+from fraud.assets.packages.packages import Packages
+
 
 class Model:
 
+    __packages = Packages()
+
     def __init__(self):
+
 
         self.__mandatory_columns = cfg_item("template", "columns","mandatory")
         self.__non_mandatory_columns = cfg_item("template", "columns","non_mandatory") 
-        self.__running = False
-        self.__test = False
-        self.__opt_meandiff = joblib.load(os.path.join(*cfg_item("app","packages", "binning_meandiff")))
-        self.__opt_amt = joblib.load(os.path.join(*cfg_item("app","packages","binning_amt")))
-        self.__opt_tslt = joblib.load(os.path.join(*cfg_item("app","packages","binning_tslt")))
-        self.__preprocessor = joblib.load(os.path.join(*cfg_item("app","packages","preprocessor")))
-        self.__model_1 = joblib.load(os.path.join(*cfg_item("app","packages","models","model_1","path")))
-        self.__model_2 = joblib.load(os.path.join(*cfg_item("app","packages","models","model_2","path")))
-        self.__model_3 = joblib.load(os.path.join(*cfg_item("app","packages","models","model_3","path")))
-        self.__mandatory_indicator = cfg_item("app", "mandatory_indicator")
+        self.__mandatory_indicator = cfg_item("template", "mandatory_indicator")
         self.__transaction_column = cfg_item("template","columns", "datetime", "transaction")
         self.__date_of_birth_column = cfg_item("template","columns", "datetime", "date_of_birth")
         self.__amount_column = cfg_item("transformed_data","columns","binned", "amount")
         self.__transaction_age = cfg_item("transformed_data","columns","datetime", "transaction_age")
         self.__transaction_amount_diff = cfg_item("transformed_data","columns","transformations", "transaction_amount_diff")
         self.__time_since_last_transaction = cfg_item("transformed_data","columns","datetime", "time_since_last_transaction")
+        self.__running = False
+        self.__test = False
   
     def __columns_check(self, data):
         if any(data.columns.str.contains(re.escape(self.__mandatory_indicator))):
@@ -107,12 +106,14 @@ class Model:
         amount_binned = cfg_item("transformed_data","columns","binned", "amount_binned")
         transaction_amount_diff_binned = cfg_item("transformed_data","columns","binned", "transaction_amount_diff")
         time_since_last_transaction_binned = cfg_item("transformed_data","columns","binned", "time_since_last_transaction")
-  
         metric = "bins"
+        amt_binner = Model.__packages.get_opt_amt()
+        tslt_binner = Model.__packages.get_opt_tslt()
+        meandiff_binner = Model.__packages.get_opt_meandiff()
         try:
-            data[amount_binned] = self.__opt_amt.transform(data[self.__amount_column], metric=metric)
-            data[time_since_last_transaction_binned] = self.__opt_tslt.transform(data[self.__time_since_last_transaction], metric=metric)
-            data[transaction_amount_diff_binned] = self.__opt_meandiff.transform(data[self.__transaction_amount_diff], metric=metric)
+            data[amount_binned] = amt_binner.transform(data[self.__amount_column], metric=metric)
+            data[time_since_last_transaction_binned] = tslt_binner.transform(data[self.__time_since_last_transaction], metric=metric)
+            data[transaction_amount_diff_binned] = meandiff_binner.transform(data[self.__transaction_amount_diff], metric=metric)
             return data
         except Exception as e:
             print(f"Error 2: {e}")
@@ -123,21 +124,21 @@ class Model:
         numerical_cols = cfg_item("transformed_data","columns", "numerical")
         categorical_cols = cfg_item("transformed_data","columns", "categorical")
         try:
-            data_processed =  self.__preprocessor.transform(data[numerical_cols + categorical_cols])
+            preprocesor = Model.__packages.get_preprocessor()
+            data_processed =  preprocesor.transform(data[numerical_cols + categorical_cols])
             return data_processed
         except Exception as e:
             print(f"Error 3: {e}")
             return None
 
-
     def predictor(self, model):
 
-        if model == cfg_item("app","packages","models","model_1", "code"):
-            predictor = self.__model_1
-        if model == cfg_item("app","packages","models","model_2", "code"):
-            predictor = self.__model_2
-        if model == cfg_item("app","packages","models","model_3", "code"):
-            predictor = self.__model_3
+        if model == cfg_item("packages","models","model_1", "code"):
+            predictor = Model.__packages.get_model_1()
+        if model == cfg_item("packages","models","model_2", "code"):
+            predictor = Model.__packages.get_model_2()
+        if model == cfg_item("packages","models","model_3", "code"):
+            predictor = Model.__packages.get_model_3()
         self.__data_processed = self.get_data_processed()
         if self.__data_processed is None:
             return None
@@ -164,7 +165,7 @@ class Model:
         return test
         
 
-    def compare_results(self, predictions):
+    def compare_results(self):
         if self.__test == True and self.__predictions is not None:
             test = self.__test_predictions()
             cm = confusion_matrix(y_true=test, y_pred=self.__predictions, normalize='true')

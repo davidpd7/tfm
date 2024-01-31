@@ -2,34 +2,50 @@
     "app": {
         "title": "Fraud Detector",
         "geometry": [360, 180],
-        "icon_path": ["fraud", "assets", "images", "app_icon.ico"],
-        "packages":{ 
+        "icon_path": ["fraud.assets.images", "app_icon.ico"]
+        },
+
+    "packages":{ 
             "models":{
                 "model_1":{
                     "name": "Model 1",
                     "code": "model_1",
-                    "path" : ["fraud", "assets", "packages", "GradientBoostingClassifier.pkl"]
+                    "path" : ["fraud.assets.packages","GradientBoostingClassifier.pkl"]
                 },
                 "model_2": {
                     "name" : "Model 2",
                     "code": "model_2",
-                    "path" : ["fraud", "assets", "packages", "GridSearchCV.pkl"]
+                    "path" : ["fraud.assets.packages", "GridSearchCV.pkl"]
                 },
                 "model_3":  {
                     "name" : "Model 3", 
                     "code": "model_3",
-                    "path":["fraud", "assets", "packages", "RandomForestClassifier.pkl"]
+                    "path":["fraud.assets.packages", "RandomForestClassifier.pkl"]
                 }
             },
-            "binning_amt": ["fraud", "assets", "packages", "optb_amt.joblib"],
-            "binning_meandiff": ["fraud", "assets", "packages", "optb_meandiff.joblib"],
-            "binning_tslt":["fraud", "assets", "packages", "optb_tslt.joblib"],
-            "preprocessor": ["fraud", "assets", "packages", "preprocessor.joblib"]
+            "transformers":{
+                "binning_amt":{
+                            "name": "Amount Binner",
+                            
+                           "path" : ["fraud.assets.packages", "optb_amt.joblib"]
+                        },
+                "binning_meandiff":{
+                            "name" : "Difference in means binner",
+                            "path" : ["fraud.assets.packages", "optb_meandiff.joblib"]}
+                            ,
+                "binning_tslt":{
+                        	"name" : "Difference in time last transaction binner", 
+                            "path" : ["fraud.assets.packages","optb_tslt.joblib"]
+                        },
+                "preprocessor":{
+                            "name" : "Preprocessor",
+                            "path" : ["fraud.assets.packages","preprocessor.joblib"]
+                        }
+            }       
         },
-        "mandatory_indicator": "*"
-    },
     "template": {
         "name": "template_fraud.csv",
+        "mandatory_indicator": "*",
         "columns": {
             "datetime": {
                 "transaction": "trans_date_trans_time",
